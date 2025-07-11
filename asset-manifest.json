@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/ai-bim-datacenter/static/css/main.a428b6d0.css",
-    "main.js": "/ai-bim-datacenter/static/js/main.7469230f.js",
+    "main.css": "/ai-bim-datacenter/static/css/main.04115ef6.css",
+    "main.js": "/ai-bim-datacenter/static/js/main.a05f5bed.js",
     "index.html": "/ai-bim-datacenter/index.html",
-    "main.a428b6d0.css.map": "/ai-bim-datacenter/static/css/main.a428b6d0.css.map",
-    "main.7469230f.js.map": "/ai-bim-datacenter/static/js/main.7469230f.js.map"
+    "main.04115ef6.css.map": "/ai-bim-datacenter/static/css/main.04115ef6.css.map",
+    "main.a05f5bed.js.map": "/ai-bim-datacenter/static/js/main.a05f5bed.js.map"
   },
   "entrypoints": [
-    "static/css/main.a428b6d0.css",
-    "static/js/main.7469230f.js"
+    "static/css/main.04115ef6.css",
+    "static/js/main.a05f5bed.js"
   ]
 }
