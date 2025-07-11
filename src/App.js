@@ -6,7 +6,6 @@ import UseCaseGallery from './components/UseCaseGallery';
 import AIBIMAction from './components/AIBIMAction';
 import TechnologyStack from './components/TechnologyStack';
 import BenefitsSection from './components/BenefitsSection';
-import DocumentLibrary from './components/DocumentLibrary';
 import InteractiveCharts from './components/InteractiveCharts';
 import RealWorldUseCases from './components/RealWorldUseCases';
 import ExpertProfile from './components/ExpertProfile';
@@ -22,7 +21,6 @@ function App() {
       <UseCaseGallery />
       <AIBIMAction />
       <TechnologyStack />
-      <DocumentLibrary />
       <RealWorldUseCases />
       <InteractiveCharts />
       <ExpertProfile />
