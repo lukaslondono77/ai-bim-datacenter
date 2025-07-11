@@ -111,7 +111,7 @@ const DeveloperProfile = () => {
             <div className="text-center mb-8">
               <div className="w-48 h-48 mx-auto mb-6 rounded-full overflow-hidden shadow-lg border-4 border-blue-500">
                 <img 
-                  src="/lukasfotodevops.jpeg" 
+                  src={process.env.PUBLIC_URL + "/lukasfotodevops.jpeg"} 
                   alt="Lukas Londono - DevOps Technical Lead"
                   className="w-full h-full object-cover"
                   onError={(e) => {
