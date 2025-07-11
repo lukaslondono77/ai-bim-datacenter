@@ -5,26 +5,30 @@ import {
   FileText, 
   Download, 
   ExternalLink, 
-  BookOpen, 
-  Users, 
+  Search, 
+  Filter,
+  BookOpen,
   TrendingUp,
   Calendar,
-  Building2
+  Users,
+  ArrowRight
 } from 'lucide-react';
 
 const DocumentLibrary = () => {
-  const [selectedCategory, setSelectedCategory] = useState('all');
   const [ref, inView] = useInView({
     triggerOnce: true,
     threshold: 0.1,
   });
 
+  const [selectedCategory, setSelectedCategory] = useState('Todos los Documentos');
+  const [searchTerm, setSearchTerm] = useState('');
+
   const categories = [
-    { id: 'all', label: 'Todos los Documentos', icon: FileText },
-    { id: 'methodology', label: 'Metodología BIM+AI', icon: BookOpen },
-    { id: 'datacenter', label: 'Centros de Datos', icon: Building2 },
-    { id: 'research', label: 'Investigación', icon: TrendingUp },
-    { id: 'implementation', label: 'Implementación', icon: Users }
+    'Todos los Documentos',
+    'Metodología BIM+AI',
+    'Centros de Datos',
+    'Investigación',
+    'Implementación'
   ];
 
   const documents = [
@@ -32,102 +36,96 @@ const DocumentLibrary = () => {
       id: 1,
       title: "Integrando BIM e IA para Gestión Inteligente de Construcción",
       authors: "MDPI, ResearchGate, United-BIM",
-      category: "methodology",
-      year: 2024,
+      year: "2024",
+      pages: "45 páginas",
+      citations: "127",
+      category: "Metodología BIM+AI",
       description: "Análisis completo del ciclo de vida, construcción inteligente y metodologías BIM+AI integradas.",
-      keyInsights: [
+      insights: [
         "Ciclo de vida completo de proyectos BIM+AI",
         "Metodologías de construcción inteligente",
         "Integración de tecnologías emergentes"
       ],
-      downloadUrl: "#",
-      externalUrl: "https://www.mdpi.com/2076-3417/14/1/123",
-      pages: 45,
-      citations: 127
+      pdfUrl: "#",
+      onlineUrl: "#"
     },
     {
       id: 2,
       title: "Preparación de Datos BIM e IFC para Integración con IA",
       authors: "Cambridge University, repository.cam.ac.uk",
-      category: "research",
-      year: 2023,
+      year: "2023",
+      pages: "32 páginas",
+      citations: "89",
+      category: "Investigación",
       description: "Métodos y técnicas para preparar datos BIM e IFC para integración efectiva con sistemas de IA.",
-      keyInsights: [
+      insights: [
         "Métodos de preparación de datos IFC",
         "Estandarización de formatos BIM",
         "Interoperabilidad entre sistemas"
       ],
-      downloadUrl: "#",
-      externalUrl: "https://repository.cam.ac.uk/handle/1810/345678",
-      pages: 32,
-      citations: 89
+      pdfUrl: "#",
+      onlineUrl: "#"
     },
     {
       id: 3,
       title: "Explorando BIM-IA en Proyectos de Infraestructura",
       authors: "MDPI, ResearchGate",
-      category: "implementation",
-      year: 2024,
+      year: "2024",
+      pages: "28 páginas",
+      citations: "156",
+      category: "Implementación",
       description: "Marco conceptual y aplicaciones de sostenibilidad para BIM+AI en proyectos de infraestructura.",
-      keyInsights: [
+      insights: [
         "Marco conceptual BIM+AI",
         "Aplicaciones de sostenibilidad",
         "Proyectos de infraestructura"
       ],
-      downloadUrl: "#",
-      externalUrl: "https://www.mdpi.com/2071-1050/16/2/456",
-      pages: 28,
-      citations: 156
+      pdfUrl: "#",
+      onlineUrl: "#"
     },
     {
       id: 4,
       title: "El Rol de BIM en la Construcción de Centros de Datos Inteligentes",
       authors: "United-BIM, Associated General Contractors",
-      category: "datacenter",
-      year: 2024,
+      year: "2024",
+      pages: "38 páginas",
+      citations: "203",
+      category: "Centros de Datos",
       description: "Casos de uso específicos para centros de datos, optimización de sistemas MEP y gestión de activos.",
-      keyInsights: [
+      insights: [
         "Casos de uso específicos para centros de datos",
         "Optimización de sistemas MEP",
         "Gestión de activos digitales"
       ],
-      downloadUrl: "#",
-      externalUrl: "https://www.united-bim.com/bim-data-centers",
-      pages: 38,
-      citations: 203
+      pdfUrl: "#",
+      onlineUrl: "#"
     },
     {
       id: 5,
       title: "Integración de IA en el Ciclo de Vida BIM",
       authors: "ResearchGate, Academia",
-      category: "methodology",
-      year: 2023,
+      year: "2023",
+      pages: "41 páginas",
+      citations: "178",
+      category: "Metodología BIM+AI",
       description: "Análisis profundo de la integración de IA en cada fase del ciclo de vida BIM.",
-      keyInsights: [
+      insights: [
         "Integración de IA en diseño",
         "Automatización en construcción",
         "Gestión inteligente de operaciones"
       ],
-      downloadUrl: "#",
-      externalUrl: "https://www.researchgate.net/publication/123456789",
-      pages: 41,
-      citations: 178
+      pdfUrl: "#",
+      onlineUrl: "#"
     }
   ];
 
-  const filteredDocuments = selectedCategory === 'all' 
-    ? documents 
-    : documents.filter(doc => doc.category === selectedCategory);
-
-  const handleDownload = (document) => {
-    // Simular descarga - en producción esto descargaría el PDF real
-    console.log(`Descargando: ${document.title}`);
-    alert(`Descargando: ${document.title}\n\nEn una implementación real, esto descargaría el PDF completo.`);
-  };
-
-  const handleExternalLink = (url) => {
-    window.open(url, '_blank');
-  };
+  const filteredDocuments = documents.filter(doc => {
+    const matchesCategory = selectedCategory === 'Todos los Documentos' || doc.category === selectedCategory;
+    const matchesSearch = doc.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         doc.authors.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         doc.description.toLowerCase().includes(searchTerm.toLowerCase());
+    return matchesCategory && matchesSearch;
+  });
 
   return (
     <section className="py-24 bg-gradient-to-b from-slate-50 to-white">
@@ -143,83 +141,117 @@ const DocumentLibrary = () => {
             Biblioteca de <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">Documentos</span>
           </h2>
           <p className="text-xl text-slate-600 max-w-4xl mx-auto leading-relaxed">
-            Accede a investigaciones, estudios y documentos técnicos sobre la integración de BIM e IA 
-            en la construcción de centros de datos. Descarga PDFs completos o explora resúmenes detallados.
+            Accede a investigaciones, estudios y documentos técnicos sobre la integración de BIM e IA en la construcción de centros de datos. 
+            Descarga PDFs completos o explora resúmenes detallados.
           </p>
         </motion.div>
 
-        {/* Category Filters */}
+        {/* Search and Filter */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="flex flex-wrap justify-center gap-3 mb-12"
+          className="mb-12"
         >
-          {categories.map((category) => (
-            <button
-              key={category.id}
-              onClick={() => setSelectedCategory(category.id)}
-              className={`flex items-center gap-2 px-6 py-3 rounded-lg font-medium transition-all duration-200 ${
-                selectedCategory === category.id
-                  ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg'
-                  : 'bg-white text-slate-600 hover:bg-slate-100 border border-slate-200'
-              }`}
-            >
-              <category.icon className="w-4 h-4" />
-              {category.label}
-            </button>
-          ))}
+          <div className="bg-white rounded-2xl p-6 shadow-xl border border-slate-100">
+            <div className="grid md:grid-cols-2 gap-6">
+              {/* Search */}
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 w-5 h-5" />
+                <input
+                  type="text"
+                  placeholder="Buscar documentos..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="w-full pl-10 pr-4 py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                />
+              </div>
+
+              {/* Category Filter */}
+              <div className="relative">
+                <Filter className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 w-5 h-5" />
+                <select
+                  value={selectedCategory}
+                  onChange={(e) => setSelectedCategory(e.target.value)}
+                  className="w-full pl-10 pr-4 py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none bg-white"
+                >
+                  {categories.map((category) => (
+                    <option key={category} value={category}>
+                      {category}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+          </div>
         </motion.div>
 
         {/* Documents Grid */}
-        <div className="grid lg:grid-cols-2 gap-8">
-          {filteredDocuments.map((document, index) => (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8, delay: 0.4 }}
+          className="grid lg:grid-cols-2 gap-8 mb-12"
+        >
+          {filteredDocuments.map((doc, index) => (
             <motion.div
-              key={document.id}
-              initial={{ opacity: 0, y: 30 }}
+              key={doc.id}
+              initial={{ opacity: 0, y: 20 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.3 + index * 0.1 }}
-              className="bg-white rounded-xl p-8 shadow-xl border border-slate-100 hover:shadow-2xl transition-all duration-300"
+              transition={{ duration: 0.8, delay: 0.2 + index * 0.1 }}
+              className="bg-white rounded-2xl p-8 shadow-xl border border-slate-100 hover:shadow-2xl transition-all duration-300"
             >
-              <div className="flex justify-between items-start mb-4">
-                <div className="flex-1">
-                  <h3 className="text-xl font-bold text-slate-900 mb-2 leading-tight">
-                    {document.title}
-                  </h3>
-                  <div className="flex items-center gap-4 text-sm text-slate-500 mb-3">
-                    <span className="flex items-center gap-1">
-                      <Users className="w-4 h-4" />
-                      {document.authors}
-                    </span>
-                    <span className="flex items-center gap-1">
-                      <Calendar className="w-4 h-4" />
-                      {document.year}
-                    </span>
-                    <span className="flex items-center gap-1">
-                      <FileText className="w-4 h-4" />
-                      {document.pages} páginas
-                    </span>
+              {/* Document Header */}
+              <div className="mb-6">
+                <div className="flex items-start justify-between mb-4">
+                  <div className="flex-1">
+                    <h3 className="text-xl font-bold text-slate-900 mb-2 leading-tight">
+                      {doc.title}
+                    </h3>
+                    <div className="flex items-center gap-4 text-sm text-slate-600 mb-3">
+                      <div className="flex items-center gap-1">
+                        <Users className="w-4 h-4" />
+                        {doc.authors}
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <Calendar className="w-4 h-4" />
+                        {doc.year}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2 text-sm text-slate-500">
+                    <FileText className="w-4 h-4" />
+                    {doc.pages}
                   </div>
                 </div>
-                <div className="text-right">
-                  <div className="text-sm text-slate-500 mb-1">Citaciones</div>
-                  <div className="text-lg font-bold text-blue-600">{document.citations}</div>
+
+                {/* Citations */}
+                <div className="flex items-center gap-2 text-sm text-slate-600 mb-4">
+                  <TrendingUp className="w-4 h-4 text-green-500" />
+                  <span className="font-medium">{doc.citations} citaciones</span>
                 </div>
+
+                {/* Category Badge */}
+                <span className="inline-block bg-blue-100 text-blue-800 text-xs font-medium px-3 py-1 rounded-full">
+                  {doc.category}
+                </span>
               </div>
 
+              {/* Description */}
               <p className="text-slate-600 mb-6 leading-relaxed">
-                {document.description}
+                {doc.description}
               </p>
 
               {/* Key Insights */}
               <div className="mb-6">
-                <h4 className="text-sm font-semibold text-slate-700 mb-3 uppercase tracking-wide">
+                <h4 className="text-sm font-semibold text-slate-900 mb-3 flex items-center gap-2">
+                  <BookOpen className="w-4 h-4 text-blue-600" />
                   Insights Clave
                 </h4>
                 <ul className="space-y-2">
-                  {document.keyInsights.map((insight, insightIndex) => (
-                    <li key={insightIndex} className="flex items-start text-sm text-slate-600">
-                      <div className="w-2 h-2 bg-blue-500 rounded-full mr-3 mt-2 flex-shrink-0"></div>
+                  {doc.insights.map((insight, idx) => (
+                    <li key={idx} className="flex items-start gap-2 text-sm text-slate-600">
+                      <div className="w-1.5 h-1.5 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
                       {insight}
                     </li>
                   ))}
@@ -228,44 +260,47 @@ const DocumentLibrary = () => {
 
               {/* Action Buttons */}
               <div className="flex gap-3">
-                <button
-                  onClick={() => handleDownload(document)}
-                  className="flex items-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-4 py-2 rounded-lg font-medium hover:from-blue-700 hover:to-indigo-700 transition-all duration-200 flex-1 justify-center"
+                <a
+                  href={doc.pdfUrl}
+                  className="flex items-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:from-blue-700 hover:to-indigo-700 transition-all transform hover:scale-105"
                 >
                   <Download className="w-4 h-4" />
                   Descargar PDF
-                </button>
-                <button
-                  onClick={() => handleExternalLink(document.externalUrl)}
-                  className="flex items-center gap-2 bg-slate-100 text-slate-700 px-4 py-2 rounded-lg font-medium hover:bg-slate-200 transition-all duration-200"
+                </a>
+                <a
+                  href={doc.onlineUrl}
+                  className="flex items-center gap-2 border border-slate-300 text-slate-700 px-4 py-2 rounded-lg text-sm font-medium hover:bg-slate-50 transition-colors"
                 >
                   <ExternalLink className="w-4 h-4" />
                   Ver Online
-                </button>
+                </a>
               </div>
             </motion.div>
           ))}
-        </div>
+        </motion.div>
 
-        {/* Download All Bundle */}
+        {/* Complete Package Download */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 0.8 }}
-          className="mt-16 text-center"
+          transition={{ duration: 0.8, delay: 0.6 }}
+          className="text-center"
         >
           <div className="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl p-8 text-white">
             <h3 className="text-2xl font-bold mb-4">
               Descarga Completa de Recursos
             </h3>
             <p className="text-blue-100 mb-6 max-w-2xl mx-auto">
-              Obtén todos los documentos en un solo paquete, incluyendo presentaciones adicionales 
-              y recursos complementarios para tu implementación de BIM+AI.
+              Obtén todos los documentos en un solo paquete, incluyendo presentaciones adicionales y recursos complementarios para tu implementación de BIM+AI.
             </p>
-            <button className="bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors flex items-center gap-2 mx-auto">
+            <a
+              href="#"
+              className="inline-flex items-center gap-2 bg-white text-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-blue-50 transition-all transform hover:scale-105"
+            >
               <Download className="w-5 h-5" />
               Descargar Paquete Completo
-            </button>
+              <ArrowRight className="w-4 h-4" />
+            </a>
           </div>
         </motion.div>
       </div>
